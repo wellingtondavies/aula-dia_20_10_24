@@ -62,12 +62,11 @@ public class Estacionamento {
 
     @Override
     public String toString() {
-        return "Estacionamento{" +
-                "estacionamentos=" + estacionamentos +
-                ", placa='" + placa + '\'' +
-                ", numero=" + numero +
-                ", horaEntrada=" + horaEntrada +
-                ", horaSalida=" + horaSalida +
+        return "Relatorio do estacionamento {" +
+                ", veiculo de placa " + placa + '\'' +
+                ", numero da vaga " + numero +
+                ", hora de Entrada " + horaEntrada +
+                ", hora de Salida " + horaSalida +
                 '}';
     }
 }

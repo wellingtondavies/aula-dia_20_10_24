@@ -66,8 +66,8 @@ public class Veiculo {
                 "placa '" + placa + '\'' +
                 ", modelo '" + modelo + '\'' +
                 ", tamanho '" + tamanho + '\'' +
-                ", horaEntrada " + horaEntrada +
-                ", horaSaida " + horaSaida +
+                ", hora de Entrada " + horaEntrada +
+                ", hora de Saida " + horaSaida +
                 '}';
     }
 }
