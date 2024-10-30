@@ -243,13 +243,14 @@ public class Main {
         }
     }
     public static void inicializador(){
+        //veiculos
         Veiculo inicializador1 = new Veiculo("mcm6j45", "uno", "pequeno", LocalTime.of(10,30,00), LocalTime.of(15,00,00));
         veiculos.add(inicializador1);
         Veiculo inicializador2 = new Veiculo("abc1d23", "fusca", "medio", LocalTime.of(11, 15, 00), LocalTime.of(16, 45, 00));
         veiculos.add(inicializador2);
         Veiculo inicializador3 = new Veiculo("xyz9w87", "civic", "grande", LocalTime.of(12, 00, 00), LocalTime.of(17, 30, 00));
         veiculos.add(inicializador3);
-
+        //vagas
         Vaga inicializador4 = new Vaga(10, "pequeno", true);
         vagas.add(inicializador4);
         Vaga inicializador5 = new Vaga(12, "médio", true);

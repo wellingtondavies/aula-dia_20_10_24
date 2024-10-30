@@ -16,7 +16,6 @@ public class Veiculo {
         this.horaEntrada = horaEntrada;
         this.horaSaida = horaSaida;
     }
-
     public Veiculo() {
 
     }

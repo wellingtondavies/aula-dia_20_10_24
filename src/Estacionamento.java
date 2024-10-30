@@ -59,7 +59,6 @@ public class Estacionamento {
     public void setHoraSalida(LocalTime horaSalida) {
         this.horaSalida = horaSalida;
     }
-
     @Override
     public String toString() {
         return "Relatorio do estacionamento {" +
