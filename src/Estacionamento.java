@@ -20,7 +20,6 @@ public class Estacionamento {
     public Estacionamento() {
 
     }
-
     public List<Estacionamento> getEstacionamentos() {
         return estacionamentos;
     }

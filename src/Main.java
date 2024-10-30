@@ -70,7 +70,6 @@ public class Main {
             }
 
         }
-
     }
     public static void ocuparVaga() {
         System.out.println(" ocupar vaga \n");

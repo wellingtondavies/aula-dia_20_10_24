@@ -11,7 +11,6 @@ public class Vaga {
     public Vaga() {
 
     }
-
     public int getNumero() {
         return numero;
     }

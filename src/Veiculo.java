@@ -60,7 +60,6 @@ public class Veiculo {
     public void setHoraSaida(LocalTime horaSaida) {
         this.horaSaida = horaSaida;
     }
-
     @Override
     public String toString() {
         return "Veiculos disponiveis{" +
