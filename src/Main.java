@@ -2,6 +2,7 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,14 +16,52 @@ public class Main {
     public static Vaga vaga = new Vaga();
 
     public static void main(String[] args) {
-    inicializador();
-    cadastraVeiculo();
-    cadastraVaga();
-    ocuparVaga();
-    removerVaga();
-    saidaVeiculo();
-    relatorioVagasOcupadas();
-    hitoricoDePermanencia();
+        //o metodo inicializador, adiciona veiculos e vagas para agilizar a execução do codigo
+            inicializador();
+            boolean rodando = true;
+            while (rodando) {
+                System.out.println("Escolha uma opção:");
+                System.out.println("1 - Cadastrar Veículo");
+                System.out.println("2 - Cadastrar Vaga");
+                System.out.println("3 - Ocupar Vaga");
+                System.out.println("4 - Remover Vaga");
+                System.out.println("5 - Registrar Saída de Veículo");
+                System.out.println("6 - Relatório de Vagas Ocupadas");
+                System.out.println("7 - Histórico de Permanência");
+                System.out.println("0 - Sair");
+
+                int opcao = scan.nextInt();
+                switch (opcao) {
+                    case 1:
+                        cadastraVeiculo();
+                        break;
+                    case 2:
+                        cadastraVaga();
+                        break;
+                    case 3:
+                        ocuparVaga();
+                        break;
+                    case 4:
+                        removerVaga();
+                        break;
+                    case 5:
+                        saidaVeiculo();
+                        break;
+                    case 6:
+                        relatorioVagasOcupadas();
+                        break;
+                    case 7:
+                        hitoricoDePermanencia();
+                        break;
+                    case 0:
+                        rodando = false;
+                        System.out.println("Encerrando o sistema.");
+                        break;
+                    default:
+                        System.out.println("Opção inválida.");
+                        break;
+                }
+            }
     }
     public static void cadastraVeiculo() {
         System.out.println("cadastrar veiculo \n");
@@ -37,11 +76,11 @@ public class Main {
             System.out.println("qual o tamanho do veiculo?: ( pequeno | medio | grande ) \n");
             String tamanho = scan.next();
 
-            System.out.println("qual a hora de entrada? \n");
+            System.out.println("qual a hora de entrada? EX( 13:50:00 )\n");
             String horaDeEntrada = scan.next();
             LocalTime horaEntrada = LocalTime.parse(horaDeEntrada, formato);
 
-            System.out.println("qual a hora de saida? \n");
+            System.out.println("qual a hora de saida? EX( 13:50:00 )\n");
             String horaDeSaida = scan.next();
             LocalTime horaSaida = LocalTime.parse(horaDeSaida, formato);
 
@@ -54,6 +93,17 @@ public class Main {
             if (escolha == 2) {
                 rodar = false;
             }
+
+
+
+            System.out.println(" deseja listar os veiculos disponiveis ( 1 - sim | 2 - não ) \n");
+            int escolha1 = scan.nextInt();
+
+            if(escolha1 == 1 ){
+                listarVeiculos();
+            }
+
+
         }
     }
     public static void cadastraVaga() {
@@ -67,16 +117,20 @@ public class Main {
             System.out.println("disponibilidade automaticamente definida para sim: \n");
             boolean disponibilidade = true;
 
-            System.out.println(" deseja adicionar mais vagas ( 1 - sim | 2 ) \n");
+            System.out.println(" deseja adicionar mais vagas ( 1 - sim | 2 - não ) \n");
             int escolha = scan.nextInt();
-
-            Vaga vaga = new Vaga(numero, tamanho, disponibilidade);
-            vagas.add(vaga);
-
             if (escolha == 2) {
                 rodar = false;
             }
 
+            Vaga vaga = new Vaga(numero, tamanho, disponibilidade);
+            vagas.add(vaga);
+
+            System.out.println(" deseja listar as vagas disponiveis ( 1 - sim | 2 - não ) \n");
+            int escolha1 = scan.nextInt();
+            if(escolha1 == 1 ){
+                listarVagas();
+            }
         }
     }
     public static void ocuparVaga() {
@@ -94,7 +148,7 @@ public class Main {
 
                 for(Vaga vaga : vagas) {
                     if(vaga.getNumero() == numero) {
-                        vaga.setDisponivel(true);
+                        vaga.setDisponivel(false);
                         tamanho = vaga.getTamanho();
                     }
                 }
@@ -149,14 +203,22 @@ public class Main {
             System.out.println(" escolha uma vaga pelo numero: \n");
             int numero = scan.nextInt();
 
-            for (Vaga vaga2 : vagas) {
+            Iterator<Vaga> iterator = vagas.iterator();
+            boolean vagaRemovida = false;
+            while (iterator.hasNext()) {
+                Vaga vaga2 = iterator.next();
                 if (vaga2.getNumero() == numero) {
                     vaga2.setDisponivel(true);
-                    vagas.remove(vaga2);
-                    System.out.println(" vaga removida com sucesso: \n");
-                }else{
-                    System.out.println(" ERRO \n");
+                    iterator.remove(); // Remoção segura durante a iteração
+                    System.out.println("Vaga removida com sucesso: \n");
+                    vagaRemovida = true;
+                    break;
                 }
+            }
+            System.out.println("Deseja remover outra vaga? ( 1 - sim | 2 - não )");
+            int escolha = scan.nextInt();
+            if (escolha == 2) {
+                rodar = false;
             }
         }
     }
@@ -166,6 +228,7 @@ public class Main {
         LocalTime horaout = null;
 
         System.out.println("veiculos disponiveis \n");
+
 
         for(Veiculo veiculo : veiculos) {
             System.out.println(veiculo.toString());
@@ -178,7 +241,7 @@ public class Main {
         for (Veiculo veiculo : veiculos) {
             if (veiculo.getPlaca().equals(placa)) {
                 horain = veiculo.getHoraEntrada();
-                horaout = veiculo.getHoraSaida();
+                horaout = LocalTime.now();
                 veiculoEncontrado = true;
                 break;
             }
@@ -192,9 +255,9 @@ public class Main {
         Duration duracao = Duration.between(horain, horaout); //calcula duração entre horain e horaout
         long totalMinutos = duracao.toMinutes(); //converte a duração total para minutos
 
-        if(totalMinutos < 60){
+        if(totalMinutos <= 60){
             custoHora = 5;
-        } else if (totalMinutos > 60 && totalMinutos < 180) {
+        } else if (totalMinutos >= 60 && totalMinutos <= 180) {
             custoHora = 10;
         }else{
             custoHora = 15;
@@ -213,7 +276,6 @@ public class Main {
                             vaga.setDisponivel(true);
                         }
                     }
-                    estacionamento.getEstacionamentos().remove(estacionamento);
                 }
             }
             System.out.println(" cobrança feita e vaga alterada para disponivel \n");
@@ -230,8 +292,12 @@ public class Main {
         System.out.println(" exibindo relatorio de vagas ocupadas \n");
 
         for(Vaga vaga1 :vagas){
-            if(vaga1.isDisponivel() == false){
+            if(!vaga1.isDisponivel()){
                 System.out.println(vaga1.toString());
+                break;
+            }else{
+                System.out.println(" sem vagas ocupadas no momento \n");
+                break;
             }
         }
     }
@@ -246,17 +312,22 @@ public class Main {
         //veiculos
         Veiculo inicializador1 = new Veiculo("mcm6j45", "uno", "pequeno", LocalTime.of(10,30,00), LocalTime.of(15,00,00));
         veiculos.add(inicializador1);
-        Veiculo inicializador2 = new Veiculo("abc1d23", "fusca", "medio", LocalTime.of(11, 15, 00), LocalTime.of(16, 45, 00));
-        veiculos.add(inicializador2);
-        Veiculo inicializador3 = new Veiculo("xyz9w87", "civic", "grande", LocalTime.of(12, 00, 00), LocalTime.of(17, 30, 00));
-        veiculos.add(inicializador3);
         //vagas
         Vaga inicializador4 = new Vaga(10, "pequeno", true);
         vagas.add(inicializador4);
-        Vaga inicializador5 = new Vaga(12, "médio", true);
-        vagas.add(inicializador5);
-        Vaga inicializador6 = new Vaga(14, "grande", true);
-        vagas.add(inicializador6);
 
+    }
+    public static void listarVeiculos(){
+        System.out.println(" LISTANDO VEICULOS \n");
+
+        for(Veiculo carro : veiculos){
+            System.out.println(carro.toString());
+        }
+    }
+    public static void listarVagas(){
+        System.out.println(" LISTANDO VAGAS \n");
+        for(Vaga vaga : vagas){
+            System.out.println(vaga.toString());
+        }
     }
 }
